@@ -1,0 +1,28 @@
+name: signup_adventure
+description: A fun interactive Flutter signup experience with animations and badges.
+
+publish_to: 'none' # since this is a class project
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # Animation and celebration packages ✨
+  animated_text_kit: ^4.2.2
+  confetti: ^0.7.0
+
+  # Optional (can remove if unused)
+  cupertino_icons: ^1.0.8
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true

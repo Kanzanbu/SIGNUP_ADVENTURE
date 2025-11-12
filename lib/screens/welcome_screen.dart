@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'signup_screen.dart';
+import 'login_screen.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
@@ -81,6 +82,22 @@ class WelcomeScreen extends StatelessWidget {
                     SizedBox(width: 10),
                     Icon(Icons.arrow_forward, color: Colors.white),
                   ],
+                ),
+              ),
+              const SizedBox(height: 16),
+              TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const LoginScreen()),
+                  );
+                },
+                child: const Text(
+                  'Already have an account? Sign In',
+                  style: TextStyle(
+                    color: Colors.deepPurple,
+                    fontSize: 16,
+                  ),
                 ),
               ),
             ],

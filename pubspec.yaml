@@ -15,6 +15,11 @@ dependencies:
   animated_text_kit: ^4.2.2
   confetti: ^0.7.0
 
+  # Firebase packages
+  firebase_core: ^3.8.1
+  firebase_auth: ^5.3.3
+  cloud_firestore: ^5.5.1
+
   # Optional (can remove if unused)
   cupertino_icons: ^1.0.8
 

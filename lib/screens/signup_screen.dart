@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import '../widgets/avatar_selector.dart';
 import '../widgets/password_strength.dart';
 import '../widgets/progress_tracker.dart';
-import 'success_screen.dart';
+import '../services/auth_service.dart';
+import 'profile_screen.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -17,6 +18,7 @@ class _SignupScreenState extends State<SignupScreen> {
   final _email = TextEditingController();
   final _password = TextEditingController();
   final _dob = TextEditingController();
+  final _authService = AuthService();
   bool _visible = false;
   bool _loading = false;
   int _avatarIndex = 0;
@@ -45,26 +47,41 @@ class _SignupScreenState extends State<SignupScreen> {
   void _submit() async {
     if (_formKey.currentState!.validate()) {
       setState(() => _loading = true);
-      await Future.delayed(const Duration(seconds: 2));
-      setState(() => _loading = false);
+      
+      try {
+        await _authService.registerWithEmailAndPassword(
+          _email.text.trim(),
+          _password.text,
+        );
+        
+        setState(() => _loading = false);
 
-      final badges = <String>[];
-      if (_password.text.length >= 10 && RegExp(r'[A-Z]').hasMatch(_password.text)) {
-        badges.add('Strong Password Master');
-      }
-      if (DateTime.now().hour < 12) badges.add('The Early Bird Special');
-      if (_progress >= 1.0) badges.add('Profile Completer');
+        final badges = <String>[];
+        if (_password.text.length >= 10 && RegExp(r'[A-Z]').hasMatch(_password.text)) {
+          badges.add('Strong Password Master');
+        }
+        if (DateTime.now().hour < 12) badges.add('The Early Bird Special');
+        if (_progress >= 1.0) badges.add('Profile Completer');
 
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (_) => SuccessScreen(
-            userName: _name.text,
-            avatarIndex: _avatarIndex,
-            badges: badges,
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (_) => ProfileScreen(
+              userName: _name.text,
+              avatarIndex: _avatarIndex,
+              badges: badges,
+            ),
           ),
-        ),
-      );
+        );
+      } catch (e) {
+        setState(() => _loading = false);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Registration failed: ${e.toString()}'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
     }
   }
 
